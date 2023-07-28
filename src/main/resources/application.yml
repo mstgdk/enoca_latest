@@ -1,0 +1,60 @@
+server:
+  port: 8080
+  error:
+    include-binding-errors: always
+    include-message: always
+    include-stacktrace: never
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/enocaDB
+    username: db_user
+    password: db_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      '[hibernate.format_sql]': true
+
+servlet:
+  multipart:
+    max-file-size: 2MB
+    max-request-size: 2MB
+
+logging:
+  file:
+    name: log/enoca.log
+  pattern:
+    file: "%d %-5level [%thread] %logger:%msg%n"
+  level:
+    '[org.springframework.web]' : WARN
+    '[org.hibernate]' : INFO
+    '[com.saferent]' : DEBUG
+
+management: #actuator
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    env:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+
+enoca:
+  app:
+    jwtSecret: enoca@!10
+    jwtExpirationMs: 86400000
+
+info:
+  application:
+    name: 'Enoca Backend App'
+    description: 'This is Enoca Backend Project'
+    version: '@project.version@'
